@@ -6,7 +6,7 @@ export default function NavBar() {
   return (
     <div className='h-screen bg-zinc-900 shadow-lg w-48 flex p-4'>
       <div className='flex flex-col justify-start w-full'>
-        <h1 className='text-white font-bold text-center'>Heartence</h1>
+        <h1 className='text-white font-bold text-center'>Heartense</h1>
         <div className='space-y-5 my-10'>
           <NavItem text='Activity' icon={<Chart/>}/>
           <NavItem text='Sensors' icon = {<Sensor/>}/>
