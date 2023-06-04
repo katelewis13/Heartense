@@ -1,32 +1,68 @@
-import React from "react";
+import React, { useState } from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { useSpring, animated } from 'react-spring';
 
 export default function Graph() {
-  
+  const [selectedNames, setSelectedNames] = useState({
+    "Bryce": true,
+    "Kate": true,
+    "Aidyn": true,
+    "Yagumi": true,
+    "Varad": true
+  });
+
+  const [isFilterVisible, setFilterVisible] = useState(true);
+  const filterAnimation = useSpring({ width: isFilterVisible ? 240 : 0 });
+
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const name = event.target.name as keyof typeof selectedNames;
+    setSelectedNames({ ...selectedNames, [name]: event.target.checked });
+  };
+
+  const lines = Object.keys(selectedNames).map((name, index) => {
+    const colors = ["#39da8a", "#ff5c5c", "#5b8dee", "#fdac41", "#73e0e6"];
+    if(selectedNames[name as keyof typeof selectedNames]) {
+      return <Line type="monotone" dataKey={name} stroke={colors[index]} name={name} key={name}/>
+    }
+    return null;
+  });
+
   return (
     <div className="bg-zinc-900 pr-14 p-10 rounded-md">
-      <LineChart 
-        width={1200} 
-        height={750} 
-        data={data} 
-        margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
-        <Line type="monotone" dataKey="Bryce" stroke="#39da8a" name="Bryce"/>
-        <Line type="monotone" dataKey="Kate" stroke="#ff5c5c" name="Kate"/>
-        <Line type="monotone" dataKey="Aidyn" stroke="#5b8dee" name="Aidyn"/>
-        <Line type="monotone" dataKey="Yagumi" stroke="#fdac41" name="Yagumi"/>
-        <Line type="monotone" dataKey="Varad" stroke="#73e0e6" name="Varad"/>
-
-        <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-        <XAxis 
-          dataKey="recorded_on" 
-          type="category"
-          tickFormatter={formatXAxis}
-          stroke="white"
-          />
-        <YAxis type="number" domain={['dataMin', 'dataMax']} padding={{ top: 50, bottom: 50 }} stroke="white"/>
-        <Tooltip />
-        <Legend verticalAlign="top" height={36}/>
-      </LineChart>
+      <div className="flex">
+        <animated.div style={filterAnimation} className="overflow-hidden md:bg-transparent md:p-4 md:rounded-lg md:shadow-lg md:mr-6">
+        <button className="text-white" onClick={() => setFilterVisible(!isFilterVisible)}>{isFilterVisible ? '<' : '>'}</button>
+          {isFilterVisible && (
+            <form className="text-white">
+              {Object.keys(selectedNames).map(name => (
+                <div key={name}>
+                  <input type="checkbox" id={name} name={name} checked={selectedNames[name as keyof typeof selectedNames]} onChange={handleCheckboxChange}/>
+                  <label htmlFor={name} className="ml-2">{name}</label>
+                </div>
+              ))}
+            </form>
+          )}
+        </animated.div>
+        <div className="w-full">
+          <LineChart 
+            width={1200} 
+            height={750} 
+            data={data} 
+            margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
+            {lines}
+            <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
+            <XAxis 
+              dataKey="recorded_on" 
+              type="category"
+              tickFormatter={formatXAxis}
+              stroke="white"
+              />
+            <YAxis type="number" domain={['dataMin', 'dataMax']} padding={{ top: 50, bottom: 50 }} stroke="white"/>
+            <Tooltip />
+            <Legend verticalAlign="top" height={36}/>
+          </LineChart>
+        </div>
+      </div>
     </div>
   );
 }
