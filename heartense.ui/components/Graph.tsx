@@ -1,30 +1,57 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import { useSpring, animated } from 'react-spring';
 
+type People = {
+  name: string,
+  colour: string,
+}
+
 export default function Graph() {
-  const [selectedNames, setSelectedNames] = useState({
-    "Bryce": true,
-    "Kate": true,
-    "Aidyn": true,
-    "Yagumi": true,
-    "Varad": true
-  });
+
+  const people: People[] = [
+    {
+      name: "Bryce",
+      colour: "#39da8a",
+    },
+    {
+      name: "Kate",
+      colour: "#ff5c5c"
+    },
+    {
+      name: "Aidyn",
+      colour: "#5b8dee"
+    },
+    {
+      name: "Yagumi",
+      colour: "#fdac41"
+    },
+    {
+      name: "Varad",
+      colour: "#73e0e6"
+    }
+  ]
+
+  const [selectedNames, setSelectedNames] = useState(["Bryce", "Kate", "Aidyn", "Yagumi", "Varad"])
 
   const [isFilterVisible, setFilterVisible] = useState(true);
   const filterAnimation = useSpring({ width: isFilterVisible ? 240 : 0 });
 
-  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const name = event.target.name as keyof typeof selectedNames;
-    setSelectedNames({ ...selectedNames, [name]: event.target.checked });
-  };
+  const handleCheckboxChange = (name: string) => {
+    setSelectedNames((prev) => {
+      if (prev.includes(name)) {
+        return prev.filter((item) => item !== name);
+      } else {
+        return [...prev, name];
+      }
+    });
+  }; 
 
-  const lines = Object.keys(selectedNames).map((name, index) => {
-    const colors = ["#39da8a", "#ff5c5c", "#5b8dee", "#fdac41", "#73e0e6"];
-    if(selectedNames[name as keyof typeof selectedNames]) {
-      return <Line type="monotone" dataKey={name} stroke={colors[index]} name={name} key={name}/>
+  const lines = people.map((person) => {
+    if (!selectedNames.includes(person.name)) {
+      return null;
     }
-    return null;
+    return <Line type="monotone" dataKey={person.name} stroke={person.colour} name={person.name} key={person.name}/>
   });
 
   return (
@@ -34,12 +61,14 @@ export default function Graph() {
         <button className="text-white" onClick={() => setFilterVisible(!isFilterVisible)}>{isFilterVisible ? '<' : '>'}</button>
           {isFilterVisible && (
             <form className="text-white">
-              {Object.keys(selectedNames).map(name => (
-                <div key={name}>
-                  <input type="checkbox" id={name} name={name} checked={selectedNames[name as keyof typeof selectedNames]} onChange={handleCheckboxChange}/>
-                  <label htmlFor={name} className="ml-2">{name}</label>
-                </div>
-              ))}
+              { people.map((person) => {
+                return (
+                  <div key={person.name}>
+                    <input type="checkbox" id={person.name} name={person.name} checked={selectedNames.includes(person.name)} onChange={(e) => handleCheckboxChange(person.name)}/>
+                    <label htmlFor={person.name} className="ml-2">{person.name}</label>
+                  </div>
+                )
+              })}
             </form>
           )}
         </animated.div>
