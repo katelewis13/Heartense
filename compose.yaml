@@ -1,0 +1,32 @@
+services:
+  frontend:
+    build:
+      context: ./heartense.ui
+    ports:
+      - "3000:3000"
+  backend:
+    build:
+      context: ./heartense.api
+    ports:
+      - "3001:3001"
+    env_file:
+      - ./heartense.api/.env
+    networks:
+      - internal
+  messages:
+    image: eclipse-mosquitto:2.0.15
+    ports:
+      - "1883:1883"
+  database:
+    image: mongo:6.0.6
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./init.js:/docker-entrypoint-initdb.d/init.js:ro,Z
+    env_file:
+      - ./.env
+    networks:
+      - internal
+
+networks:
+  internal:
