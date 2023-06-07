@@ -14,7 +14,7 @@ export default function Home() {
         {
           devices.map((device) => {
             return (
-              <div className="m-5 border-2 border-white rounded-md">
+              <div key={device.name} className="m-5 border-2 border-white rounded-md">
                 <Device name={device.name} heartrate={device.heartrate} oxygen={device.oxygen} />
               </div>
             )
