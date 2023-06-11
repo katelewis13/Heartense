@@ -7,7 +7,7 @@ export type Endpoint = {
 };
 
 // This is just a placeholder for now to show an example of how this file will look. 
-const BASE_URL = 'https://heartense-serverless.vercel.app';
+const BASE_URL = 'https://heartense-serverless.vercel.app/api';
 
 export const endpoints = {
   getHeartOx: `${BASE_URL}/sensor/data`, 

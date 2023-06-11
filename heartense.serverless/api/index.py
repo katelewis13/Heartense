@@ -4,7 +4,7 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-@app.route('/sensor/data', methods=['GET'])
+@app.route('/api/sensor/data', methods=['GET'])
 def dummyData():
 
     data = [
@@ -91,7 +91,7 @@ def dummyData():
     ]
     return jsonify(data), 200
 
-@app.route('/actuator/colour', methods=['GET'])
+@app.route('/api/actuator/colour', methods=['GET'])
 def dummyColourData():
     data = [
         {
@@ -128,7 +128,7 @@ def dummyColourData():
         }]
     return jsonify(data), 200
 
-@app.route('/actuator/colour', methods=['POST'])
+@app.route('/api/actuator/colour', methods=['POST'])
 def colour():
     person = request.json.get('key')
     colour = request.json.get('value')
