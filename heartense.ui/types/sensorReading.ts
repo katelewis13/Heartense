@@ -1,10 +1,10 @@
 export type SensorReading = {
     timestamp: Date,
-    Kate: {
+    Bryce: {
         heart_rate: number,
         blood_oxygen: number,
       },
-    Bryce: {
+    Kate: {
         heart_rate: number,
         blood_oxygen: number,
       },
