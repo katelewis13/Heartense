@@ -2,10 +2,12 @@ import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from pymongo import MongoClient
-from dotenv import load_dotenv
 from datetime import datetime, timedelta
 
-load_dotenv()
+# Uncomment the dotenv import if you want to run this locally
+# ------------------------------------------------------------
+# from dotenv import load_dotenv
+# load_dotenv()
 
 host = MongoClient(os.environ.get("MONGO_HOST"))
 db = host[os.environ.get("MONGO_DB")]
