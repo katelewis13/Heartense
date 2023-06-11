@@ -6,86 +6,236 @@ app = Flask(__name__)
 def dummyData():
 
     data = [
-        {
-            "recorded_on": "2023-05-31T12:30:00",
-            "Bryce": 79.1,
-            "Kate": 96.1,
-            "Aidyn": 96.6,
-            "Yagumi": 92.2,
-            "Varad": 70.0
+    {
+        "timestamp": "2023-05-31T12:30:00",
+        "Bryce": {
+        "heart_rate": 79.1,
+        "blood_oxygen": 94.0
         },
-        {
-            "recorded_on": "2023-05-31T12:30:30",
-            "Bryce": 71.8,
-            "Kate": 92.3,
-            "Aidyn": 90.7,
-            "Yagumi": 85.7,
-            "Varad": 74.5
+        "Kate": {
+        "heart_rate": 96.1,
+        "blood_oxygen": 96.7
         },
-        {
-            "recorded_on": "2023-05-31T12:31:00",
-            "Bryce": 72.7,
-            "Kate": 91.8,
-            "Aidyn": 97.3,
-            "Yagumi": 91.2,
-            "Varad": 67.8
+        "Aidyn": {
+        "heart_rate": 96.6,
+        "blood_oxygen": 97.9
         },
-        {
-            "recorded_on": "2023-05-31T12:31:30",
-            "Bryce": 68.7,
-            "Kate": 94.5,
-            "Aidyn": 91.4,
-            "Yagumi": 92.4,
-            "Varad": 73.5
+        "Yagumi": {
+        "heart_rate": 92.2,
+        "blood_oxygen": 90.9
         },
-        {
-            "recorded_on": "2023-05-31T12:32:00",
-            "Bryce": 65.5,
-            "Kate": 93.4,
-            "Aidyn": 98.6,
-            "Yagumi": 97.0,
-            "Varad": 70.2
-        },
-        {
-            "recorded_on": "2023-05-31T12:32:30",
-            "Bryce": 69.2,
-            "Kate": 88.5,
-            "Aidyn": 98.0,
-            "Yagumi": 100,
-            "Varad": 65.8
-        },
-        {
-            "recorded_on": "2023-05-31T12:33:00",
-            "Bryce": 70.4,
-            "Kate": 93.3,
-            "Aidyn": 100,
-            "Yagumi": 100,
-            "Varad": 60.4
-        },
-        {
-            "recorded_on": "2023-05-31T12:33:30",
-            "Bryce": 75.5,
-            "Kate": 84.5,
-            "Aidyn": 93.8,
-            "Yagumi": 99.9,
-            "Varad": 64.8
-        },
-        {
-            "recorded_on": "2023-05-31T12:34:00",
-            "Bryce": 78.7,
-            "Kate": 92.6,
-            "Aidyn": 99.0,
-            "Yagumi": 100,
-            "Varad": 70.9
-        },
-        {
-            "recorded_on": "2023-05-31T12:34:30",
-            "Bryce": 81.1,
-            "Kate": 94.1,
-            "Aidyn": 98.8,
-            "Yagumi": 94.6,
-            "Varad": 73.1
+        "Varad": {
+        "heart_rate": 70.0,
+        "blood_oxygen": 91.1
         }
+    },
+    {
+        "timestamp": "2023-05-31T12:30:30",
+        "Bryce": {
+        "heart_rate": 71.8,
+        "blood_oxygen": 97.2
+        },
+        "Kate": {
+        "heart_rate": 92.3,
+        "blood_oxygen": 96.0
+        },
+        "Aidyn": {
+        "heart_rate": 90.7,
+        "blood_oxygen": 95.5
+        },
+        "Yagumi": {
+        "heart_rate": 85.7,
+        "blood_oxygen": 96.9
+        },
+        "Varad": {
+        "heart_rate": 74.5,
+        "blood_oxygen": 90.5
+        }
+    },
+    {
+        "timestamp": "2023-05-31T12:31:00",
+        "Bryce": {
+        "heart_rate": 72.7,
+        "blood_oxygen": 97.7
+        },
+        "Kate": {
+        "heart_rate": 91.8,
+        "blood_oxygen": 93.8
+        },
+        "Aidyn": {
+        "heart_rate": 97.3,
+        "blood_oxygen": 95.5
+        },
+        "Yagumi": {
+        "heart_rate": 91.2,
+        "blood_oxygen": 90.7
+        },
+        "Varad": {
+        "heart_rate": 67.8,
+        "blood_oxygen": 94.6
+        }
+    },
+    {
+        "timestamp": "2023-05-31T12:31:30",
+        "Bryce": {
+        "heart_rate": 68.7,
+        "blood_oxygen": 91.0
+        },
+        "Kate": {
+        "heart_rate": 94.5,
+        "blood_oxygen": 94.4
+        },
+        "Aidyn": {
+        "heart_rate": 91.4,
+        "blood_oxygen": 91.6
+        },
+        "Yagumi": {
+        "heart_rate": 92.4,
+        "blood_oxygen": 95.0
+        },
+        "Varad": {
+        "heart_rate": 73.5,
+        "blood_oxygen": 92.5
+        }
+    },
+    {
+        "timestamp": "2023-05-31T12:32:00",
+        "Bryce": {
+        "heart_rate": 65.5,
+        "blood_oxygen": 91.6
+        },
+        "Kate": {
+        "heart_rate": 93.4,
+        "blood_oxygen": 94.0
+        },
+        "Aidyn": {
+        "heart_rate": 98.6,
+        "blood_oxygen": 99.5
+        },
+        "Yagumi": {
+        "heart_rate": 97.0,
+        "blood_oxygen": 93.7
+        },
+        "Varad": {
+        "heart_rate": 70.2,
+        "blood_oxygen": 98.7
+        }
+    },
+    {
+        "timestamp": "2023-05-31T12:32:30",
+        "Bryce": {
+        "heart_rate": 69.2,
+        "blood_oxygen": 96.5
+        },
+        "Kate": {
+        "heart_rate": 88.5,
+        "blood_oxygen": 97.9
+        },
+        "Aidyn": {
+        "heart_rate": 98.0,
+        "blood_oxygen": 100.0
+        },
+        "Yagumi": {
+        "heart_rate": 100,
+        "blood_oxygen": 99.2
+        },
+        "Varad": {
+        "heart_rate": 65.8,
+        "blood_oxygen": 91.6
+        }
+    },
+    {
+        "timestamp": "2023-05-31T12:33:00",
+        "Bryce": {
+        "heart_rate": 70.4,
+        "blood_oxygen": 97.7
+        },
+        "Kate": {
+        "heart_rate": 93.3,
+        "blood_oxygen": 94.7
+        },
+        "Aidyn": {
+        "heart_rate": 100,
+        "blood_oxygen": 93.4
+        },
+        "Yagumi": {
+        "heart_rate": 100,
+        "blood_oxygen": 94.0
+        },
+        "Varad": {
+        "heart_rate": 60.4,
+        "blood_oxygen": 94.7
+        }
+    },
+    {
+        "timestamp": "2023-05-31T12:33:30",
+        "Bryce": {
+        "heart_rate": 75.5,
+        "blood_oxygen": 92.6
+        },
+        "Kate": {
+        "heart_rate": 84.5,
+        "blood_oxygen": 97.4
+        },
+        "Aidyn": {
+        "heart_rate": 93.8,
+        "blood_oxygen": 96.8
+        },
+        "Yagumi": {
+        "heart_rate": 99.9,
+        "blood_oxygen": 91.2
+        },
+        "Varad": {
+        "heart_rate": 64.8,
+        "blood_oxygen": 92.1
+        }
+    },
+    {
+        "timestamp": "2023-05-31T12:34:00",
+        "Bryce": {
+        "heart_rate": 78.7,
+        "blood_oxygen": 99.0
+        },
+        "Kate": {
+        "heart_rate": 92.6,
+        "blood_oxygen": 96.4
+        },
+        "Aidyn": {
+        "heart_rate": 99.0,
+        "blood_oxygen": 96.2
+        },
+        "Yagumi": {
+        "heart_rate": 100,
+        "blood_oxygen": 91.3
+        },
+        "Varad": {
+        "heart_rate": 70.9,
+        "blood_oxygen": 93.5
+        }
+    },
+    {
+        "timestamp": "2023-05-31T12:34:30",
+        "Bryce": {
+        "heart_rate": 81.1,
+        "blood_oxygen": 90.6
+        },
+        "Kate": {
+        "heart_rate": 94.1,
+        "blood_oxygen": 98.5
+        },
+        "Aidyn": {
+        "heart_rate": 98.8,
+        "blood_oxygen": 98.1
+        },
+        "Yagumi": {
+        "heart_rate": 94.6,
+        "blood_oxygen": 98.7
+        },
+        "Varad": {
+        "heart_rate": 73.1,
+        "blood_oxygen": 94.9
+        }
+    }
     ]
     return jsonify(data), 200
 
