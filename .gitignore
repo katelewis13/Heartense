@@ -1,1 +1,4 @@
 .vscode
+heartense.serverless/.env
+heartense.serverless/api/dontcommit.py
+heartense.serverless/api/.env
