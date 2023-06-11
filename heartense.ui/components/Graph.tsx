@@ -18,7 +18,7 @@ export default function Graph() {
   const people: People[] = [
     {
       name: "Bryce",
-      colour: "#39da8a",
+      colour: "#39da8a", 
     },
     {
       name: "Kate",
