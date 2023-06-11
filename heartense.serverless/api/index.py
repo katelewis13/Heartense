@@ -66,7 +66,7 @@ def getSensorData():
         for person_data in current_interval_values:
                 period_dict.update(person_data)
 
-        new_records_for_period.append(period_dict)
+        reformated_records_to_return.append(period_dict)
 
         interval_start = interval_end
         interval_end = interval_start + timedelta(seconds=interval_duration)
