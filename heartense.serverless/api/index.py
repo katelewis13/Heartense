@@ -1,245 +1,78 @@
+import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from pymongo import MongoClient
+from datetime import datetime, timedelta
+
+# Uncomment the dotenv import if you want to run this locally
+# ------------------------------------------------------------
+# from dotenv import load_dotenv
+# load_dotenv()
+
+host = MongoClient(os.environ.get("MONGO_HOST"))
+db = host[os.environ.get("MONGO_DB")]
+collection = db[os.environ.get("MONGO_COLLECTION")]
 
 app = Flask(__name__)
 CORS(app)
 
 @app.route('/api/sensor/data', methods=['GET'])
-def dummyData():
+def getSensorData():
+    
+    today = datetime.now().date()
 
-    data = [
-        {
-            "timestamp": "2023-05-31T12:30:00",
-            "Bryce": {
-                "heart_rate": 79.1,
-                "blood_oxygen": 94.0
-            },
-            "Kate": {
-                "heart_rate": 96.1,
-                "blood_oxygen": 96.7
-            },
-            "Aidyn": {
-                "heart_rate": 96.6,
-                "blood_oxygen": 97.9
-            },
-            "Yagumi": {
-                "heart_rate": 92.2,
-                "blood_oxygen": 90.9
-            },
-            "Varad": {
-                "heart_rate": 70.0,
-                "blood_oxygen": 91.1
-            }
-        },
-        {
-            "timestamp": "2023-05-31T12:30:30",
-            "Bryce": {
-                "heart_rate": 71.8,
-                "blood_oxygen": 97.2
-            },
-            "Kate": {
-                "heart_rate": 92.3,
-                "blood_oxygen": 96.0
-            },
-            "Aidyn": {
-                "heart_rate": 90.7,
-                "blood_oxygen": 95.5
-            },
-            "Yagumi": {
-                "heart_rate": 85.7,
-                "blood_oxygen": 96.9
-            },
-            "Varad": {
-                "heart_rate": 74.5,
-                "blood_oxygen": 90.5
-            }
-        },
-        {
-            "timestamp": "2023-05-31T12:31:00",
-            "Bryce": {
-                "heart_rate": 72.7,
-                "blood_oxygen": 97.7
-            },
-            "Kate": {
-                "heart_rate": 91.8,
-                "blood_oxygen": 93.8
-            },
-            "Aidyn": {
-                "heart_rate": 97.3,
-                "blood_oxygen": 95.5
-            },
-            "Yagumi": {
-                "heart_rate": 91.2,
-                "blood_oxygen": 90.7
-            },
-            "Varad": {
-                "heart_rate": 67.8,
-                "blood_oxygen": 94.6
-            }
-        },
-        {
-            "timestamp": "2023-05-31T12:31:30",
-            "Bryce": {
-                "heart_rate": 68.7,
-                "blood_oxygen": 91.0
-            },
-            "Kate": {
-                "heart_rate": 94.5,
-                "blood_oxygen": 94.4
-            },
-            "Aidyn": {
-                "heart_rate": 91.4,
-                "blood_oxygen": 91.6
-            },
-            "Yagumi": {
-                "heart_rate": 92.4,
-                "blood_oxygen": 95.0
-            },
-            "Varad": {
-                "heart_rate": 73.5,
-                "blood_oxygen": 92.5
-            }
-        },
-        {
-            "timestamp": "2023-05-31T12:32:00",
-            "Bryce": {
-                "heart_rate": 65.5,
-                "blood_oxygen": 91.6
-            },
-            "Kate": {
-                "heart_rate": 93.4,
-                "blood_oxygen": 94.0
-            },
-            "Aidyn": {
-                "heart_rate": 98.6,
-                "blood_oxygen": 99.5
-            },
-            "Yagumi": {
-                "heart_rate": 97.0,
-                "blood_oxygen": 93.7
-            },
-            "Varad": {
-                "heart_rate": 70.2,
-                "blood_oxygen": 98.7
-            }
-        },
-        {
-            "timestamp": "2023-05-31T12:32:30",
-            "Bryce": {
-                "heart_rate": 69.2,
-                "blood_oxygen": 96.5
-            },
-            "Kate": {
-                "heart_rate": 88.5,
-                "blood_oxygen": 97.9
-            },
-            "Aidyn": {
-                "heart_rate": 98.0,
-                "blood_oxygen": 100.0
-            },
-            "Yagumi": {
-                "heart_rate": 100,
-                "blood_oxygen": 99.2
-            },
-            "Varad": {
-                "heart_rate": 65.8,
-                "blood_oxygen": 91.6
-            }
-        },
-        {
-            "timestamp": "2023-05-31T12:33:00",
-            "Bryce": {
-                "heart_rate": 70.4,
-                "blood_oxygen": 97.7
-            },
-            "Kate": {
-                "heart_rate": 93.3,
-                "blood_oxygen": 94.7
-            },
-            "Aidyn": {
-                "heart_rate": 100,
-                "blood_oxygen": 93.4
-            },
-            "Yagumi": {
-                "heart_rate": 100,
-                "blood_oxygen": 94.0
-            },
-            "Varad": {
-                "heart_rate": 60.4,
-                "blood_oxygen": 94.7
-            }
-        },
-        {
-            "timestamp": "2023-05-31T12:33:30",
-            "Bryce": {
-                "heart_rate": 75.5,
-                "blood_oxygen": 92.6
-            },
-            "Kate": {
-                "heart_rate": 84.5,
-                "blood_oxygen": 97.4
-            },
-            "Aidyn": {
-                "heart_rate": 93.8,
-                "blood_oxygen": 96.8
-            },
-            "Yagumi": {
-                "heart_rate": 99.9,
-                "blood_oxygen": 91.2
-            },
-            "Varad": {
-                "heart_rate": 64.8,
-                "blood_oxygen": 92.1
-            }
-        },
-        {
-            "timestamp": "2023-05-31T12:34:00",
-            "Bryce": {
-                "heart_rate": 78.7,
-                "blood_oxygen": 99.0
-            },
-            "Kate": {
-                "heart_rate": 92.6,
-                "blood_oxygen": 96.4
-            },
-            "Aidyn": {
-                "heart_rate": 99.0,
-                "blood_oxygen": 96.2
-            },
-            "Yagumi": {
-                "heart_rate": 100,
-                "blood_oxygen": 91.3
-            },
-            "Varad": {
-                "heart_rate": 70.9,
-                "blood_oxygen": 93.5
-            }
-        },
-        {
-            "timestamp": "2023-05-31T12:34:30",
-            "Bryce": {
-                "heart_rate": 81.1,
-                "blood_oxygen": 90.6
-            },
-            "Kate": {
-                "heart_rate": 94.1,
-                "blood_oxygen": 98.5
-            },
-            "Aidyn": {
-                "heart_rate": 98.8,
-                "blood_oxygen": 98.1
-            },
-            "Yagumi": {
-                "heart_rate": 94.6,
-                "blood_oxygen": 98.7
-            },
-            "Varad": {
-                "heart_rate": 73.1,
-                "blood_oxygen": 94.9
-            }
+    start_time = datetime.combine(today, datetime.min.time()) + timedelta(hours=10)
+    end_time = datetime.combine(today, datetime.min.time()) + timedelta(hours=11)
+
+    query = {
+        "timefield": {
+            "$gte": start_time,
+            "$lte": end_time
         }
-    ]
-    return jsonify(data), 200
+    }
+
+    results = collection.find(query)
+    docs = list(results)
+    docs.sort(key=lambda x: x["timefield"])
+
+    interval_duration = 30
+
+    earliest = docs[0]["timefield"]
+    latest = docs[-1]["timefield"]
+
+    interval_start = datetime(earliest.year, earliest.month, earliest.day, earliest.hour, earliest.minute)
+    interval_end = interval_start + timedelta(seconds=interval_duration)
+
+    reformated_records_to_return = []
+
+    while (interval_start < latest):
+        # Get all the records that fall within the current interval
+        current_interval_values = []
+        people_accounted_for = []
+        
+        for record in docs:
+            if record["timefield"] >= interval_start and record["timefield"] < interval_end and record["name"] not in people_accounted_for:
+                current_interval_values.append(
+                    {
+                        record["name"]: {
+                            "heart_rate": record["heart_rate"],
+                            "blood_oxygen": record["blood_ox"]
+                        }
+                    })
+                people_accounted_for.append(record["name"])
+        
+        period_dict = { "recorded_on": interval_start }
+
+        for person_data in current_interval_values:
+                period_dict.update(person_data)
+
+        reformated_records_to_return.append(period_dict)
+
+        interval_start = interval_end
+        interval_end = interval_start + timedelta(seconds=interval_duration)
+
+    return jsonify(reformated_records_to_return), 200
+    
 
 @app.route('/api/actuator/colour', methods=['GET'])
 def dummyColourData():
@@ -288,3 +121,66 @@ def colour():
 
 
     return jsonify({'message': 'Setting updated'}), 200
+
+
+@app.route("/api/search", methods=["POST"])
+def search():
+    data = request.get_json()
+
+    start_date = data.get("start", None)
+    end_date = data.get("end", None)
+
+    query = {}
+    if start_date or end_date:
+        query["recorded_on"] = {}
+        if start_date:
+            query["recorded_on"]["$gte"] = start_date
+        if end_date:
+            query["recorded_on"]["$lte"] = end_date
+
+    app.logger.info(query)
+
+    cursor = collection.find(query)
+    docs = list(cursor)
+
+    # Sort the docs based on the 'recorded_on' field
+    docs.sort(key=lambda x: x["recorded_on"])
+
+    interval_duration = 30
+
+    current_interval_start = datetime.fromisoformat(docs[0]["recorded_on"])
+    current_interval_values = {}
+    mean_values = []
+
+    for record in docs:
+        recorded_on = datetime.fromisoformat(record["recorded_on"])
+        user = record["user"]
+
+        # Calculate the rounded timestamp to the nearest 30 seconds
+        rounded_timestamp = recorded_on - timedelta(
+            seconds=recorded_on.second % interval_duration
+        )
+
+        # Check if the current record falls within the current interval
+        if (user, rounded_timestamp) not in current_interval_values:
+            current_interval_values[(user, rounded_timestamp)] = []
+
+        current_interval_values[(user, rounded_timestamp)].append(record)
+
+    # Calculate the mean values for each interval
+    for interval, records in current_interval_values.items():
+        user, rounded_timestamp = interval
+        mean_heart_rate = sum(record["heart_rate"] for record in records) / len(records)
+        mean_blood_oxygen = sum(record["blood_oxygen"] for record in records) / len(
+            records
+        )
+        mean_values.append(
+            {
+                "recorded_on": rounded_timestamp.isoformat(),
+                "user": user,
+                "heart_rate": mean_heart_rate,
+                "blood_oxygen": mean_blood_oxygen,
+            }
+        )
+
+    return jsonify(mean_values)

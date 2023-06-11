@@ -4,8 +4,9 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-flask = "==2.2.2"
+flask = "*"
 flask-cors = "*"
+pymongo = "*"
 
 [dev-packages]
 
