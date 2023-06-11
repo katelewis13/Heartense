@@ -1,8 +1,11 @@
 import Graph from '../components/Graph'
 import Device from '../components/Device'
-
+import {useSensorData} from "../hooks/useSensorData";
 
 export default function Home() {
+
+  const {latest, isLoading, hasError} = useSensorData();
+
   return (
     <main className={`flex min-h-screen flex-col justify-between mt-10`}>
       <div className='flex flex-row'>
@@ -11,11 +14,11 @@ export default function Home() {
         </div>
       </div>
       <div className="flex flex-row justify-center">
-        {
-          devices.map((device) => {
+        { latest != null && !isLoading && !hasError &&
+          latest.map((person) => {
             return (
-              <div key={device.name} className="m-5 border-2 border-white rounded-md">
-                <Device name={device.name} heartrate={device.heartrate} oxygen={device.oxygen} />
+              <div key={person.name} className="m-5 border-2 border-white rounded-md">
+                <Device name={person.name} heartrate={person.heartRate} oxygen={person.bloodOxygen}/>
               </div>
             )
           })
@@ -34,27 +37,27 @@ type Device = {
 
 const devices: Device[] = [
   {
-    name: "Device 1",
+    name: "Bryce",
     heartrate: 90,
     oxygen: 98
   },
   {
-    name: "Device 2",
+    name: "Kate",
     heartrate: 90,
     oxygen: 98
   },
   {
-    name: "Device 3",
+    name: "Aidyn",
     heartrate: 90,
     oxygen: 98
   },
   {
-    name: "Device 4",
+    name: "Yagumi",
     heartrate: 90,
     oxygen: 98
   },
   {
-    name: "Device 5",
+    name: "Varad",
     heartrate: 90,
     oxygen: 98
   }

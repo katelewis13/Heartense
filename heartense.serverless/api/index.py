@@ -246,34 +246,34 @@ def dummyColourData():
     data = [
         {
             "Bryce": {
-                "colourHeartHigh":[123, 213, 115],
-                "colourHeartLow":[123, 213, 115],
-                "colourOxHigh":[123, 213, 115],
-                "colourOxLow":[123, 213, 115],
+                "colourHeartHigh":[205, 16, 209],
+                "colourHeartLow":[78, 199, 45],
+                "colourOxHigh":[132, 68, 255],
+                "colourOxLow":[21, 144, 189],
                 },
             "Kate": {
-                "colourHeartHigh":[123, 213, 115],
-                "colourHeartLow":[123, 213, 115],
-                "colourOxHigh":[123, 213, 115],
-                "colourOxLow":[123, 213, 115],
+                "colourHeartHigh":[205, 16, 209],
+                "colourHeartLow":[78, 199, 45],
+                "colourOxHigh":[132, 68, 255],
+                "colourOxLow":[21, 144, 189],
                 },
             "Aidyn": {
-                "colourHeartHigh":[123, 213, 115],
-                "colourHeartLow":[123, 213, 115],
-                "colourOxHigh":[123, 213, 115],
-                "colourOxLow":[123, 213, 115],
+                "colourHeartHigh":[205, 16, 209],
+                "colourHeartLow":[78, 199, 45],
+                "colourOxHigh":[132, 68, 255],
+                "colourOxLow":[21, 144, 189],
                 },
             "Yagumi": {
-                "colourHeartHigh":[123, 213, 115],
-                "colourHeartLow":[123, 213, 115],
-                "colourOxHigh":[123, 213, 115],
-                "colourOxLow":[123, 213, 115],
+                "colourHeartHigh":[205, 16, 209],
+                "colourHeartLow":[78, 199, 45],
+                "colourOxHigh":[132, 68, 255],
+                "colourOxLow":[21, 144, 189],
                 },
             "Varad": {
-                "colourHeartHigh":[123, 213, 115],
-                "colourHeartLow":[123, 213, 115],
-                "colourOxHigh":[123, 213, 115],
-                "colourOxLow":[123, 213, 115],
+                "colourHeartHigh":[205, 16, 209],
+                "colourHeartLow":[78, 199, 45],
+                "colourOxHigh":[132, 68, 255],
+                "colourOxLow":[21, 144, 189],
                 }
         }]
     return jsonify(data), 200
