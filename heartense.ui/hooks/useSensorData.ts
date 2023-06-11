@@ -4,7 +4,7 @@ import { endpoints } from '../actions/endpoints';
 import { SensorReading } from '../types/sensorReading';
 
 export const useSensorData = () => {
-  const { data: sensorData, error, mutate } = useSWR<SensorReading>(endpoints.getHeartOx, fetcher, { refreshInterval: 5000 });
+  const { data: sensorData, error, mutate } = useSWR<SensorReading[]>(endpoints.getHeartOx, fetcher, { refreshInterval: 5000 });
 
   return{
     data: sensorData ?? [],
