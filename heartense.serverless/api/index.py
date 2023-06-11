@@ -90,7 +90,7 @@ def dummyData():
     return jsonify(data), 200
 
 @app.route('/actuator/colour', methods=['GET'])
-def dummyData():
+def dummyColourData():
     data = [
         {
             "Bryce": {
