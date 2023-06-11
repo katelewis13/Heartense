@@ -7,8 +7,17 @@ export type Endpoint = {
 };
 
 // This is just a placeholder for now to show an example of how this file will look. 
-const api = 'http://localhost:5000/api';
+const BASE_URL = 'https://heartense-serverless.vercel.app';
 
 export const endpoints = {
-  example: `${api}/example`, 
+  getHeartOx: `${BASE_URL}/sensor/data`, 
+  getColour: `${BASE_URL}/actuator/colour`,
+  updateColour: (person: string, value: number) => ({
+    method: 'POST',
+    url: `${BASE_URL}/actuator/colour`,
+    data: {
+      key: person,
+      value,
+    },
+  }),
 }
