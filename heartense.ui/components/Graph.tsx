@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import { useSpring, animated } from 'react-spring';
+import {useSensorData} from "../hooks/useSensorData";
 
 type People = {
   name: string,
@@ -9,10 +10,15 @@ type People = {
 
 export default function Graph() {
 
+  const {data, isLoading, hasError} = useSensorData();
+  if(!isLoading && !hasError) {
+    console.log(data);
+  }
+
   const people: People[] = [
     {
       name: "Bryce",
-      colour: "#39da8a",
+      colour: "#39da8a", 
     },
     {
       name: "Kate",

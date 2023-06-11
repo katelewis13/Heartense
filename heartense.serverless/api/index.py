@@ -1,8 +1,10 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
-@app.route('/sensor/data', methods=['GET'])
+@app.route('/api/sensor/data', methods=['GET'])
 def dummyData():
 
     data = [
@@ -239,12 +241,49 @@ def dummyData():
     ]
     return jsonify(data), 200
 
-@app.route('/actuator/colour', methods=['POST'])
+@app.route('/api/actuator/colour', methods=['GET'])
+def dummyColourData():
+    data = [
+        {
+            "Bryce": {
+                "colourHeartHigh":[123, 213, 115],
+                "colourHeartLow":[123, 213, 115],
+                "colourOxHigh":[123, 213, 115],
+                "colourOxLow":[123, 213, 115],
+                },
+            "Kate": {
+                "colourHeartHigh":[123, 213, 115],
+                "colourHeartLow":[123, 213, 115],
+                "colourOxHigh":[123, 213, 115],
+                "colourOxLow":[123, 213, 115],
+                },
+            "Aidyn": {
+                "colourHeartHigh":[123, 213, 115],
+                "colourHeartLow":[123, 213, 115],
+                "colourOxHigh":[123, 213, 115],
+                "colourOxLow":[123, 213, 115],
+                },
+            "Yagumi": {
+                "colourHeartHigh":[123, 213, 115],
+                "colourHeartLow":[123, 213, 115],
+                "colourOxHigh":[123, 213, 115],
+                "colourOxLow":[123, 213, 115],
+                },
+            "Varad": {
+                "colourHeartHigh":[123, 213, 115],
+                "colourHeartLow":[123, 213, 115],
+                "colourOxHigh":[123, 213, 115],
+                "colourOxLow":[123, 213, 115],
+                }
+        }]
+    return jsonify(data), 200
+
+@app.route('/api/actuator/colour', methods=['POST'])
 def colour():
     person = request.json.get('key')
     colour = request.json.get('value')
 
-    if setting is None or value is None:
+    if colour is None or person is None:
         return jsonify({'error': 'Missing key or value'}), 400
 
 
