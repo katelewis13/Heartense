@@ -2,7 +2,7 @@ import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from pymongo import MongoClient
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 # Uncomment the dotenv import if you want to run this locally
 # ------------------------------------------------------------
@@ -20,10 +20,8 @@ CORS(app)
 @app.route('/api/sensor/data', methods=['GET'])
 def getSensorData():
     
-    today = datetime.now().date() - timedelta(days=1)
-
-    start_time = datetime.combine(today, datetime.min.time()) + timedelta(hours=10)
-    end_time = datetime.combine(today, datetime.min.time()) + timedelta(hours=11)
+    start_time = (datetime.now() - timedelta(hours=1)).astimezone(timezone.utc)
+    end_time = (datetime.now()).astimezone(timezone.utc)
 
     query = {
         "timefield": {
@@ -93,10 +91,10 @@ def getColourData():
     for doc in docs:
         colourData.append({
             "name": doc["name"],
-            "heart_rate_low": rgb_to_hex(doc["colourHeartLow"]),
-            "heart_rate_high": rgb_to_hex(doc["colourHeartHigh"]),
-            "blood_ox_low": rgb_to_hex(doc["colourOxLow"]),
-            "blood_ox_high": rgb_to_hex(doc["colourOxHigh"])
+            "colourHeartLow": rgb_to_hex(doc["colourHeartLow"]),
+            "colourHeartHigh": rgb_to_hex(doc["colourHeartHigh"]),
+            "colourOxLow": rgb_to_hex(doc["colourOxLow"]),
+            "colourOxHigh": rgb_to_hex(doc["colourOxHigh"])
         })
 
     return jsonify(colourData), 200
@@ -135,7 +133,5 @@ def updateColour():
 
     return jsonify({'message': 'Colour updated'}), 204
 
-
 # if __name__ == '__main__':
 #     app.run(host='0.0.0.0', port=5000)
-
