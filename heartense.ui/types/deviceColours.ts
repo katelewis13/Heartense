@@ -1,7 +1,7 @@
 export type DeviceColour = {
     name: string,
-    colourHeartHigh: [number],
-    colourHeartLow: [number],
-    colourOxHigh: [number],
-    colourOxLow: [number]
+    colourHeartHigh: string,
+    colourHeartLow: string,
+    colourOxHigh: string,
+    colourOxLow: string
 }

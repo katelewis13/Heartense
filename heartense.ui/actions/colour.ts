@@ -9,6 +9,23 @@ export const updateColour = (
   bloodOxHigh: string
   ) => {
 
+  const defaultColour = '#000000';
+
+  if (!person) {
+    throw new Error('Invalid input');
+  }
+  if (!heartRateLow) {
+    heartRateLow = defaultColour
+  }
+  if (!hearRateHigh) {
+    hearRateHigh = defaultColour
+  }
+  if (!bloodOxLow) {
+    bloodOxLow = defaultColour
+  }
+  if (!bloodOxHigh) {
+    bloodOxHigh = defaultColour
+  }
   
   return authenticatedAxios.request<void>(
     endpoints.updateColour(
