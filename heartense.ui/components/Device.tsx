@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useDeviceData } from "../hooks/useDeviceData";
+import { updateColour } from "@/actions/colour";
 
 type DeviceProps = {
   name: string,
@@ -51,6 +52,10 @@ function Device(p: DeviceProps) {
   
 
   const toggleEditing = () => {
+    if(isEditing){
+      console.log(heartrateLow)
+      updateColour(p.name, heartrateLow, heartrateHigh, oxygenLow, oxygenHigh);
+    }
     setIsEditing(!isEditing);
   }
 

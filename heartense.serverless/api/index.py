@@ -12,6 +12,7 @@ from datetime import datetime, timedelta
 host = MongoClient(os.environ.get("MONGO_HOST"))
 db = host[os.environ.get("MONGO_DB")]
 collection = db[os.environ.get("MONGO_COLLECTION")]
+device_collection = db["Devices"]
 
 app = Flask(__name__)
 CORS(app)
@@ -19,7 +20,7 @@ CORS(app)
 @app.route('/api/sensor/data', methods=['GET'])
 def getSensorData():
     
-    today = datetime.now().date()
+    today = datetime.now().date() - timedelta(days=1)
 
     start_time = datetime.combine(today, datetime.min.time()) + timedelta(hours=10)
     end_time = datetime.combine(today, datetime.min.time()) + timedelta(hours=11)
@@ -74,113 +75,63 @@ def getSensorData():
     return jsonify(reformated_records_to_return), 200
     
 
+def hexToRgb(hexColour):
+    hex_color = hexColour.lstrip('#')
+    return [int(hex_color[i:i+2], 16) for i in (0, 2, 4)]
+
+
+def rgb_to_hex(rgb):
+    return "#{:02x}{:02x}{:02x}".format(*rgb)
+
+
 @app.route('/api/actuator/colour', methods=['GET'])
-def dummyColourData():
-    data = [
-        {
-            "Bryce": {
-                "colourHeartHigh":[205, 16, 209],
-                "colourHeartLow":[78, 199, 45],
-                "colourOxHigh":[132, 68, 255],
-                "colourOxLow":[21, 144, 189],
-                },
-            "Kate": {
-                "colourHeartHigh":[205, 16, 209],
-                "colourHeartLow":[78, 199, 45],
-                "colourOxHigh":[132, 68, 255],
-                "colourOxLow":[21, 144, 189],
-                },
-            "Aidyn": {
-                "colourHeartHigh":[205, 16, 209],
-                "colourHeartLow":[78, 199, 45],
-                "colourOxHigh":[132, 68, 255],
-                "colourOxLow":[21, 144, 189],
-                },
-            "Yagumi": {
-                "colourHeartHigh":[205, 16, 209],
-                "colourHeartLow":[78, 199, 45],
-                "colourOxHigh":[132, 68, 255],
-                "colourOxLow":[21, 144, 189],
-                },
-            "Varad": {
-                "colourHeartHigh":[205, 16, 209],
-                "colourHeartLow":[78, 199, 45],
-                "colourOxHigh":[132, 68, 255],
-                "colourOxLow":[21, 144, 189],
-                }
-        }]
-    return jsonify(data), 200
+def getColourData():
+    results = device_collection.find({})
+    docs = list(results)
+
+    colourData = []
+    for doc in docs:
+        colourData.append({
+            "name": doc["name"],
+            "heart_rate_low": doc["colourHeartLow"],
+            "heart_rate_high": doc["colourHeartHigh"],
+            "blood_ox_low": doc["colourOxLow"],
+            "blood_ox_high": doc["colourOxHigh"]
+        })
+
+    return jsonify(colourData), 200
+
 
 @app.route('/api/actuator/colour', methods=['POST'])
-def colour():
-    person = request.json.get('key')
-    colour = request.json.get('value')
+def updateColour():
+    person = request.json.get('name')
+    heart_rate_low = request.json.get('heart_rate_low')
+    heart_rate_high = request.json.get('heart_rate_high')
+    blood_ox_low = request.json.get('blood_oxygen_low')
+    blood_ox_high = request.json.get('blood_oxygen_high')
 
-    if colour is None or person is None:
+    if person is None:
         return jsonify({'error': 'Missing key or value'}), 400
 
+    updated_dict = {}
 
-    return jsonify({'message': 'Setting updated'}), 200
+    if heart_rate_low is not None:
+        updated_dict.update({ 'colourHeartLow': hexToRgb(heart_rate_low) })
 
+    if heart_rate_high is not None:
+        updated_dict.update({ 'colourHeartHigh': hexToRgb(heart_rate_high) })
 
-@app.route("/api/search", methods=["POST"])
-def search():
-    data = request.get_json()
+    if blood_ox_low is not None:
+        updated_dict.update({ 'colourOxLow': hexToRgb(blood_ox_low) })
+    
+    if blood_ox_high is not None:
+        updated_dict.update({ 'colourOxHigh': hexToRgb(blood_ox_high) })
 
-    start_date = data.get("start", None)
-    end_date = data.get("end", None)
+    if len(updated_dict) == 0:
+        return jsonify({'error': 'Missing key or value'}), 400
+        
+    new_data = { "$set": updated_dict }
+    device_collection.update_one({"name": person}, new_data)
 
-    query = {}
-    if start_date or end_date:
-        query["recorded_on"] = {}
-        if start_date:
-            query["recorded_on"]["$gte"] = start_date
-        if end_date:
-            query["recorded_on"]["$lte"] = end_date
+    return jsonify({'message': 'Colour updated'}), 204
 
-    app.logger.info(query)
-
-    cursor = collection.find(query)
-    docs = list(cursor)
-
-    # Sort the docs based on the 'recorded_on' field
-    docs.sort(key=lambda x: x["recorded_on"])
-
-    interval_duration = 30
-
-    current_interval_start = datetime.fromisoformat(docs[0]["recorded_on"])
-    current_interval_values = {}
-    mean_values = []
-
-    for record in docs:
-        recorded_on = datetime.fromisoformat(record["recorded_on"])
-        user = record["user"]
-
-        # Calculate the rounded timestamp to the nearest 30 seconds
-        rounded_timestamp = recorded_on - timedelta(
-            seconds=recorded_on.second % interval_duration
-        )
-
-        # Check if the current record falls within the current interval
-        if (user, rounded_timestamp) not in current_interval_values:
-            current_interval_values[(user, rounded_timestamp)] = []
-
-        current_interval_values[(user, rounded_timestamp)].append(record)
-
-    # Calculate the mean values for each interval
-    for interval, records in current_interval_values.items():
-        user, rounded_timestamp = interval
-        mean_heart_rate = sum(record["heart_rate"] for record in records) / len(records)
-        mean_blood_oxygen = sum(record["blood_oxygen"] for record in records) / len(
-            records
-        )
-        mean_values.append(
-            {
-                "recorded_on": rounded_timestamp.isoformat(),
-                "user": user,
-                "heart_rate": mean_heart_rate,
-                "blood_oxygen": mean_blood_oxygen,
-            }
-        )
-
-    return jsonify(mean_values)
