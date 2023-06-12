@@ -14,7 +14,7 @@ export const useSensorData = () => {
 
   let latestReadings: SingleReading[] = [];
   if (!!sensorData) {
-    const latest = sensorData[sensorData.length - 1]
+    const latest = sensorData[sensorData.length - 2]
 
     latestReadings = Object.entries(latest)
     .filter(([key, _]) => key !== 'recorded_on')

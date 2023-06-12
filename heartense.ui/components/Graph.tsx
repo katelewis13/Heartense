@@ -54,7 +54,7 @@ export default function Graph() {
     if (!selectedNames.includes(person.name)) {
       return null;
     }
-    return <Line type="monotone" dataKey={person.name+"."+graphData} stroke={person.colour} name={person.name} key={person.name}/>
+    return <Line type="monotone" dataKey={person.name+"."+graphData} stroke={person.colour} name={person.name} key={person.name} dot={false}/>
   });
 
   const toggleGraphData = () => {

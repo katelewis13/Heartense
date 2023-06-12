@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, RefObject } from "react";
 import styled from "styled-components";
 import { useDeviceData } from "../hooks/useDeviceData";
 import { updateColour } from "@/actions/colour";
@@ -19,14 +19,21 @@ function Device(p: DeviceProps) {
   let currentDeviceData: DeviceColour | undefined = undefined;
 
   if (!isDeviceDataLoading && !hasDeviceDataError && deviceData && deviceData.length > 0) {
-    currentDeviceData = deviceData.find((d: any) => d.name === p.name)
+    const data = deviceData.find((d: any) => d.name === p.name)
+    if (!!data)
+      currentDeviceData = {
+        name: data.name,
+        colourHeartLow: data.colourHeartLow,
+        colourHeartHigh: data.colourHeartHigh,
+        colourOxLow: data.colourOxLow,
+        colourOxHigh: data.colourOxHigh
+      }
   }
 
   const [isEditing, setIsEditing] = useState(false);
 
   const toggleEditing = (heartrateLow: string, heartrateHigh: string, oxygenLow: string, oxygenHigh: string) => {
     if(isEditing){
-      console.log("updating colour", p.name, heartrateLow, heartrateHigh, oxygenLow, oxygenHigh)
       updateColour(p.name, heartrateLow, heartrateHigh, oxygenLow, oxygenHigh);
     }
     setIsEditing(!isEditing);
@@ -63,7 +70,7 @@ function DeviceColours(p: {
   toggleEditing: (heartrateLow: string, heartrateHigh: string, oxygenLow: string, oxygenHigh: string) => void
   }) {
 
-  const [heartrateLow, setHeartrateLow] = useState(p.currentDeviceData.colourHeartHigh); 
+  const [heartrateLow, setHeartrateLow] = useState(p.currentDeviceData.colourHeartLow); 
   const [heartrateHigh, setHeartrateHigh] = useState(p.currentDeviceData.colourHeartHigh);
   const [oxygenLow, setOxygenLow] = useState(p.currentDeviceData.colourOxLow);
   const [oxygenHigh, setOxygenHigh] = useState(p.currentDeviceData.colourOxHigh);
@@ -74,7 +81,6 @@ function DeviceColours(p: {
   width: 16px;
   border-radius: 10px;
   `;
-
 
   function updateLed(led: LedType, colour: string){
     if (led === "Heartrate Low") {
@@ -93,13 +99,27 @@ function DeviceColours(p: {
 
 
   function DeviceColourSetting(p:{name: LedType, colour: string, isEditing: boolean}) {
+
+    const ref = useRef<HTMLDivElement>(null);
+    const [colour, setColour] = useState(p.colour);
+
+    useClickOutside(ref, () => {
+      updateLed(p.name, colour);
+    });
+
+    const updateAll = (event: React.ChangeEvent<HTMLInputElement>) => {
+      setColour(event.target.value);
+    }
+
     return(
       <div className="flex space-x-4 items-center py-2 justify-between">
         
         <label className="text-white align-middle mr-10">{p.name}</label>
         <div className="w-10 h-6 flex justify-center">
           { p.isEditing ?
-            <input type="color" value={p.colour} onChange={(e) => updateLed(p.name, e.target.value)} />
+            <div ref={ref}>
+              <input type="color" value={p.colour} onChange={updateAll} />
+            </div>
             : <CurrentColourBlock colour={p.colour}/>
           }
         </div>
@@ -120,4 +140,20 @@ function DeviceColours(p: {
       </button>
     </>
   )
+}
+
+
+function useClickOutside(ref: RefObject<HTMLElement>, callback: () => void): void {
+  const handleClickOutside = (event: MouseEvent) => {
+    if (ref.current && !ref.current.contains(event.target as Node)) {
+      callback();
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('click', handleClickOutside);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [ref, callback]);
 }
