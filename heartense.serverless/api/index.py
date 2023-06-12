@@ -93,10 +93,10 @@ def getColourData():
     for doc in docs:
         colourData.append({
             "name": doc["name"],
-            "heart_rate_low": doc["colourHeartLow"],
-            "heart_rate_high": doc["colourHeartHigh"],
-            "blood_ox_low": doc["colourOxLow"],
-            "blood_ox_high": doc["colourOxHigh"]
+            "heart_rate_low": rgb_to_hex(doc["colourHeartLow"]),
+            "heart_rate_high": rgb_to_hex(doc["colourHeartHigh"]),
+            "blood_ox_low": rgb_to_hex(doc["colourOxLow"]),
+            "blood_ox_high": rgb_to_hex(doc["colourOxHigh"])
         })
 
     return jsonify(colourData), 200
@@ -135,3 +135,5 @@ def updateColour():
 
     return jsonify({'message': 'Colour updated'}), 204
 
+# if __name__ == '__main__':
+#     app.run(host='0.0.0.0', port=5000)
