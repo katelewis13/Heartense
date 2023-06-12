@@ -7,8 +7,8 @@ export default function Home() {
   const {latest, isLoading, hasError} = useSensorData();
 
   return (
-    <main className={`flex min-h-screen flex-col justify-between mt-10`}>
-      <div className='flex flex-row'>
+    <main className={`flex min-h-screen flex-col  overflow-y-clip`}>
+      <div className='flex flex-row mt-5'>
         <div className='flex items-center w-full justify-center'>
           <Graph />
         </div>
