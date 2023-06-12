@@ -41,13 +41,14 @@ function Device(p: DeviceProps) {
 
   if (!!currentDeviceData) {
     return (
-      <div className="bg-zinc-900 rounded-md p-10 ">
+      <div className="bg-zinc-900 rounded-md px-10 py-6">
         <h2 className="text-white text-center font-bold">{p.name}</h2>
-        <div className="my-4">
-          <span className="text-white">Heartrate: {p.heartrate}</span>
+        <div className="my-2 flex space-x-10 justify-center">
+          <span className="text-white">HR: {p.heartrate}</span>
+          <span className="text-white">OX: {p.oxygen}</span>
         </div>
-        <div className="my-4">
-          <span className="text-white">Oxygen: {p.oxygen}</span>
+        <div className="my-2">
+          
         </div>
           <DeviceColours 
             currentDeviceData={currentDeviceData}
