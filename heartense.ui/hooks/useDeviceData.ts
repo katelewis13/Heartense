@@ -6,11 +6,6 @@ import { DeviceColour } from '../types/deviceColours';
 export const useDeviceData = () => {
   const { data: devices, error, mutate } = useSWR<DeviceColour[]>(endpoints.getColour, fetcher, { refreshInterval: 5000 });
 
-
-  if (!error && devices) {
-    console.log("Devices: ", devices);
-  }
-
   return{
     data: devices ?? [],
     isLoading: !devices && !error,

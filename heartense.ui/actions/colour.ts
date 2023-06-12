@@ -26,7 +26,6 @@ export const updateColour = (
   if (!bloodOxHigh) {
     bloodOxHigh = defaultColour
   }
-
   
   return authenticatedAxios.request<void>(
     endpoints.updateColour(

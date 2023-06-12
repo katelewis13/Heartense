@@ -26,7 +26,7 @@ function Device(p: DeviceProps) {
 
   const toggleEditing = (heartrateLow: string, heartrateHigh: string, oxygenLow: string, oxygenHigh: string) => {
     if(isEditing){
-      console.log("updating colour", p.name, heartrateLow, heartrateHigh, oxygenLow, oxygenHigh)
+
       updateColour(p.name, heartrateLow, heartrateHigh, oxygenLow, oxygenHigh);
     }
     setIsEditing(!isEditing);
